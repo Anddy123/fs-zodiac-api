@@ -3,8 +3,6 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
-const { zodiacs } = require('../data/zodiacs');
-
 describe('fs-zodic-api routes', () => {
   beforeEach(() => {
     return setup(pool);
@@ -77,6 +75,16 @@ describe('fs-zodic-api routes', () => {
     expect(res.body).toEqual(expected);
   });
 
+  it('/zodiacs responds with an array of zodiacs', async () => {
+    const res = await request(app).get('/api/zodiacs/1');
+    const expected = { 
+      id:'1', 
+      name:'aquarius', 
+      dates:'Jan 21 - Feb 19', 
+      symbol:'Water Bearer' 
+    };
+    expect(res.body).toEqual(expected);
+  });
   afterAll(() => { 
     pool.end();
   });
